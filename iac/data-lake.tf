@@ -2,6 +2,21 @@ data "azuread_user" "admin" {
   user_principal_name = var.admin_user_principal_name
 }
 
+resource "azurerm_storage_account" "adls" {
+  name                     = "cryptoanalyticslake"
+  resource_group_name      = data.azurerm_resource_group.rg.name
+  location                 = data.azurerm_resource_group.rg.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+  account_kind             = "StorageV2"
+  is_hns_enabled           = "true"
+}
+
+resource "azurerm_storage_data_lake_gen2_filesystem" "crypto_quotes_filesystem" {
+  name               = "crypto-quotes"
+  storage_account_id = azurerm_storage_account.adls.id
+}
+
 resource "azuread_group" "stream_admin_group" {
   display_name     = "${azurerm_storage_account.adls.name}-stream-admin"
   security_enabled = true
@@ -37,26 +52,11 @@ resource "azuread_group" "stream_reader_group" {
   ]
 }
 
-resource "azurerm_storage_account" "adls" {
-  name                     = "cryptoanalyticslake"
-  resource_group_name      = data.azurerm_resource_group.rg.name
-  location                 = data.azurerm_resource_group.rg.location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-  account_kind             = "StorageV2"
-  is_hns_enabled           = "true"
-}
-
-resource "azurerm_storage_data_lake_gen2_filesystem" "crypto_quotes_filesystem" {
-  name               = "crypto-quotes"
-  storage_account_id = azurerm_storage_account.adls.id
-}
-
 resource "azurerm_storage_data_lake_gen2_path" "stream_path" {
   storage_account_id = azurerm_storage_account.adls.id
   filesystem_name    = azurerm_storage_data_lake_gen2_filesystem.crypto_quotes_filesystem.name
   resource           = "directory"
-  path               = "stream"
+  path               = "ehns-quote-streams"
 
   ace {
     scope       = "default"
