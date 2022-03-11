@@ -56,7 +56,7 @@ resource "azurerm_storage_data_lake_gen2_path" "stream_path" {
   storage_account_id = azurerm_storage_account.adls.id
   filesystem_name    = azurerm_storage_data_lake_gen2_filesystem.crypto_quotes_filesystem.name
   resource           = "directory"
-  path               = "ehns-quote-streams"
+  path               = "stream"
 
   ace {
     scope       = "default"
