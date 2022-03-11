@@ -10,10 +10,10 @@ on:
 
 env:
   WORKING_DIRECTORY: iac
-  REMOTE_STATE_RG: adls-demo-eastus2
-  REMOTE_STATE_SA: tfadlsed
-  REMOTE_STATE_CONTAINER: adls-remote-state-eastus2-demo
-  REMOTE_STATE_KEY: adls.terraform.tfstate
+  REMOTE_STATE_RG: adls2-demo-eastus2
+  REMOTE_STATE_SA: tfadls2ed
+  REMOTE_STATE_CONTAINER: adls2-remote-state-eastus2-demo
+  REMOTE_STATE_KEY: adls2.terraform.tfstate
   ARM_TENANT_ID: ${{ secrets.TENANT_ID }}
   ARM_SUBSCRIPTION_ID: ${{ secrets.SUBSCRIPTION_ID }}
   ARM_CLIENT_ID: ${{ secrets.CLIENT_ID }}
