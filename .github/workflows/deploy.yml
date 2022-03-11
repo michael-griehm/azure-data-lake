@@ -57,6 +57,7 @@ jobs:
           env:        
             ARM_CLIENT_SECRET: ${{ steps.get-deployer-secret.outputs.adls-demo-eastus2-deployer }}
             ARM_ACCESS_KEY: ${{ steps.get-deployer-secret.outputs.tfadlsed-access-key }}
+            TF_VAR_admin_user_principal_name: ${{ secrets.WORKLOAD_ADMIN_UPN }}
           run: terraform plan -out="./workload.tfplan"
         - name: 'Upload Plan'
           uses: actions/upload-artifact@v2
