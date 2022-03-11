@@ -17,8 +17,8 @@ resource "azurerm_storage_data_lake_gen2_filesystem" "crypto_quotes_filesystem" 
   storage_account_id = azurerm_storage_account.adls.id
 }
 
-resource "azuread_group" "stream_admin_group" {
-  display_name     = "${azurerm_storage_account.adls.name}-stream-admin"
+resource "azuread_group" "streams_admin_group" {
+  display_name     = "${azurerm_storage_account.adls.name}-streams-admin"
   security_enabled = true
 
   owners = [
@@ -32,8 +32,8 @@ resource "azuread_group_member" "admin_group_member" {
   member_object_id = data.azuread_user.admin.object_id
 }
 
-resource "azuread_group" "stream_writer_group" {
-  display_name     = "${azurerm_storage_account.adls.name}-stream-writer"
+resource "azuread_group" "streams_writer_group" {
+  display_name     = "${azurerm_storage_account.adls.name}-streams-writer"
   security_enabled = true
 
   owners = [
@@ -42,8 +42,8 @@ resource "azuread_group" "stream_writer_group" {
   ]
 }
 
-resource "azuread_group" "stream_reader_group" {
-  display_name     = "${azurerm_storage_account.adls.name}-stream-reader"
+resource "azuread_group" "streams_reader_group" {
+  display_name     = "${azurerm_storage_account.adls.name}-streams-reader"
   security_enabled = true
 
   owners = [
@@ -56,7 +56,7 @@ resource "azurerm_storage_data_lake_gen2_path" "stream_path" {
   storage_account_id = azurerm_storage_account.adls.id
   filesystem_name    = azurerm_storage_data_lake_gen2_filesystem.crypto_quotes_filesystem.name
   resource           = "directory"
-  path               = "stream"
+  path               = "ehns-quote-streams"
 
   ace {
     scope       = "default"
