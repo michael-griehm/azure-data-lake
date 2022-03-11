@@ -13,7 +13,7 @@ provider "azurerm" {
 }
 
 variable "app_name" {
-  default   = "adls"
+  default   = "adls2"
   type      = string
   sensitive = false
 }
