@@ -43,20 +43,20 @@ jobs:
           uses: azure/get-keyvault-secrets@v1
           with:
             keyvault: ${{ secrets.DEPLOYER_KEY_VAULT }}
-            secrets: 'adls-demo-eastus2-deployer, tfadlsed-access-key'
+            secrets: 'adls2-demo-eastus2-deployer, tfadls2ed-access-key'
         - name: 'Setup Terraform'
           uses: hashicorp/setup-terraform@v1
         - name: 'Terraform Init'
           env: 
             TF_CLI_ARGS_init: "-backend-config='resource_group_name=${{env.REMOTE_STATE_RG}}' -backend-config='storage_account_name=${{env.REMOTE_STATE_SA}}' -backend-config='container_name=${{env.REMOTE_STATE_CONTAINER}}' -backend-config='key=${{env.REMOTE_STATE_KEY}}'"
-            ARM_ACCESS_KEY: ${{ steps.get-deployer-secret.outputs.tfadlsed-access-key }}
+            ARM_ACCESS_KEY: ${{ steps.get-deployer-secret.outputs.tfadls2ed-access-key }}
           run: terraform init
         - name: 'Terraform Validate'
           run: terraform validate
         - name: 'Terraform Plan'
           env:        
-            ARM_CLIENT_SECRET: ${{ steps.get-deployer-secret.outputs.adls-demo-eastus2-deployer }}
-            ARM_ACCESS_KEY: ${{ steps.get-deployer-secret.outputs.tfadlsed-access-key }}
+            ARM_CLIENT_SECRET: ${{ steps.get-deployer-secret.outputs.adls2-demo-eastus2-deployer }}
+            ARM_ACCESS_KEY: ${{ steps.get-deployer-secret.outputs.tfadls2ed-access-key }}
             TF_VAR_admin_user_principal_name: ${{ secrets.WORKLOAD_ADMIN_UPN }}
           run: terraform plan -out="./workload.tfplan"
         - name: 'Upload Plan'
@@ -101,19 +101,19 @@ jobs:
         uses: azure/get-keyvault-secrets@v1
         with:
           keyvault: ${{ secrets.DEPLOYER_KEY_VAULT }}
-          secrets: 'adls-demo-eastus2-deployer, tfadlsed-access-key'
+          secrets: 'adls2-demo-eastus2-deployer, tfadls2ed-access-key'
       - name: 'Setup Terraform'
         uses: hashicorp/setup-terraform@v1
       - name: 'Terraform Init'
         env: 
           TF_CLI_ARGS_init: "-backend-config='resource_group_name=${{env.REMOTE_STATE_RG}}' -backend-config='storage_account_name=${{env.REMOTE_STATE_SA}}' -backend-config='container_name=${{env.REMOTE_STATE_CONTAINER}}' -backend-config='key=${{env.REMOTE_STATE_KEY}}'"
-          ARM_ACCESS_KEY: ${{ steps.get-deployer-secret.outputs.tfadlsed-access-key }}
+          ARM_ACCESS_KEY: ${{ steps.get-deployer-secret.outputs.tfadls2ed-access-key }}
         working-directory: ${{ env.WORKING_DIRECTORY }}
         run: terraform init
       - name:  'Terraform Apply'
         env:
-          ARM_CLIENT_SECRET: ${{ steps.get-deployer-secret.outputs.adls-demo-eastus2-deployer }}
-          ARM_ACCESS_KEY: ${{ steps.get-deployer-secret.outputs.tfadlsed-access-key }}
+          ARM_CLIENT_SECRET: ${{ steps.get-deployer-secret.outputs.adls2-demo-eastus2-deployer }}
+          ARM_ACCESS_KEY: ${{ steps.get-deployer-secret.outputs.tfadls2ed-access-key }}
         working-directory: ${{ env.WORKING_DIRECTORY }}
         run: terraform apply -auto-approve "./workload.tfplan"
       - name: 'Azure CLI logout'
