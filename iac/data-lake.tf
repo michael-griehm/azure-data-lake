@@ -28,7 +28,7 @@ resource "azuread_group" "streams_admin_group" {
 }
 
 resource "azuread_group_member" "admin_group_member" {
-  group_object_id  = azuread_group.stream_admin_group.object_id
+  group_object_id  = azuread_group.streams_admin_group.object_id
   member_object_id = data.azuread_user.admin.object_id
 }
 
@@ -61,37 +61,37 @@ resource "azurerm_storage_data_lake_gen2_path" "stream_path" {
   ace {
     scope       = "default"
     type        = "group"
-    id          = azuread_group.stream_admin_group.object_id
+    id          = azuread_group.streams_admin_group.object_id
     permissions = "rwx"
   }
   ace {
     scope       = "access"
     type        = "group"
-    id          = azuread_group.stream_admin_group.object_id
+    id          = azuread_group.streams_admin_group.object_id
     permissions = "rwx"
   }
   ace {
     scope       = "default"
     type        = "group"
-    id          = azuread_group.stream_reader_group.object_id
+    id          = azuread_group.streams_reader_group.object_id
     permissions = "r--"
   }
   ace {
     scope       = "access"
     type        = "group"
-    id          = azuread_group.stream_reader_group.object_id
+    id          = azuread_group.streams_reader_group.object_id
     permissions = "r--"
   }
   ace {
     scope       = "default"
     type        = "group"
-    id          = azuread_group.stream_writer_group.object_id
+    id          = azuread_group.streams_writer_group.object_id
     permissions = "-w-"
   }
   ace {
     scope       = "access"
     type        = "group"
-    id          = azuread_group.stream_writer_group.object_id
+    id          = azuread_group.streams_writer_group.object_id
     permissions = "-w-"
   }
 }
