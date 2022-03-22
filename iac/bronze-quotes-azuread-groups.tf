@@ -9,7 +9,7 @@ resource "azuread_group" "bronze_quotes_admin_group" {
 }
 
 resource "azuread_group_member" "bronze_quotes_admin_group_member" {
-  group_object_id  = azuread_group.bronze-quotes_admin_group.object_id
+  group_object_id  = azuread_group.bronze_quotes_admin_group.object_id
   member_object_id = data.azuread_user.admin.object_id
 }
 
