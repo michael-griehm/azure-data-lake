@@ -47,11 +47,11 @@ resource "azurerm_storage_data_lake_gen2_path" "crypto_gold_quotes_by_day_path" 
   }
 }
 
-resource "azurerm_storage_data_lake_gen2_path" "crypto_gold_quotes_by_day_path_simple_csv" {
+resource "azurerm_storage_data_lake_gen2_path" "crypto_gold_quotes_by_day_path_single_csv" {
   storage_account_id = azurerm_storage_account.adls.id
   filesystem_name    = azurerm_storage_data_lake_gen2_filesystem.crypto_gold_filesystem.name
   resource           = "directory"
-  path               = "quotes-by-day-simple-csv"
+  path               = "quotes-by-day-single-csv"
 
   ace {
     scope       = "default"
