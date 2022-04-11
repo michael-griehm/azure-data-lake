@@ -46,3 +46,91 @@ resource "azurerm_storage_data_lake_gen2_path" "crypto_bronze_quotes_by_day_path
     permissions = "-w-"
   }
 }
+
+resource "azurerm_storage_data_lake_gen2_path" "crypto_bronze_snowflake_raw_databricks" {
+  storage_account_id = azurerm_storage_account.adls.id
+  filesystem_name    = azurerm_storage_data_lake_gen2_filesystem.crypto_bronze_filesystem.name
+  resource           = "directory"
+  path               = "snowflake-raw/databricks"
+
+  ace {
+    scope       = "default"
+    type        = "group"
+    id          = azuread_group.bronze_quotes_admin_group.object_id
+    permissions = "rwx"
+  }
+  ace {
+    scope       = "access"
+    type        = "group"
+    id          = azuread_group.bronze_quotes_admin_group.object_id
+    permissions = "rwx"
+  }
+  ace {
+    scope       = "default"
+    type        = "group"
+    id          = azuread_group.bronze_quotes_reader_group.object_id
+    permissions = "r--"
+  }
+  ace {
+    scope       = "access"
+    type        = "group"
+    id          = azuread_group.bronze_quotes_reader_group.object_id
+    permissions = "r--"
+  }
+  ace {
+    scope       = "default"
+    type        = "group"
+    id          = azuread_group.bronze_quotes_writer_group.object_id
+    permissions = "-w-"
+  }
+  ace {
+    scope       = "access"
+    type        = "group"
+    id          = azuread_group.bronze_quotes_writer_group.object_id
+    permissions = "-w-"
+  }
+}
+
+resource "azurerm_storage_data_lake_gen2_path" "crypto_bronze_snowflake_raw_synapse" {
+  storage_account_id = azurerm_storage_account.adls.id
+  filesystem_name    = azurerm_storage_data_lake_gen2_filesystem.crypto_bronze_filesystem.name
+  resource           = "directory"
+  path               = "snowflake-raw/synapse"
+
+  ace {
+    scope       = "default"
+    type        = "group"
+    id          = azuread_group.bronze_quotes_admin_group.object_id
+    permissions = "rwx"
+  }
+  ace {
+    scope       = "access"
+    type        = "group"
+    id          = azuread_group.bronze_quotes_admin_group.object_id
+    permissions = "rwx"
+  }
+  ace {
+    scope       = "default"
+    type        = "group"
+    id          = azuread_group.bronze_quotes_reader_group.object_id
+    permissions = "r--"
+  }
+  ace {
+    scope       = "access"
+    type        = "group"
+    id          = azuread_group.bronze_quotes_reader_group.object_id
+    permissions = "r--"
+  }
+  ace {
+    scope       = "default"
+    type        = "group"
+    id          = azuread_group.bronze_quotes_writer_group.object_id
+    permissions = "-w-"
+  }
+  ace {
+    scope       = "access"
+    type        = "group"
+    id          = azuread_group.bronze_quotes_writer_group.object_id
+    permissions = "-w-"
+  }
+}
