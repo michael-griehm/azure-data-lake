@@ -1,6 +1,43 @@
 resource "azurerm_storage_data_lake_gen2_filesystem" "crypto_gold_filesystem" {
   name               = "crypto-gold"
   storage_account_id = azurerm_storage_account.adls.id
+
+  ace {
+    scope       = "default"
+    type        = "group"
+    id          = azuread_group.gold_quotes_admin_group.object_id
+    permissions = "rwx"
+  }
+  ace {
+    scope       = "access"
+    type        = "group"
+    id          = azuread_group.gold_quotes_admin_group.object_id
+    permissions = "rwx"
+  }
+  ace {
+    scope       = "default"
+    type        = "group"
+    id          = azuread_group.gold_quotes_reader_group.object_id
+    permissions = "r--"
+  }
+  ace {
+    scope       = "access"
+    type        = "group"
+    id          = azuread_group.gold_quotes_reader_group.object_id
+    permissions = "r--"
+  }
+  ace {
+    scope       = "default"
+    type        = "group"
+    id          = azuread_group.gold_quotes_writer_group.object_id
+    permissions = "-w-"
+  }
+  ace {
+    scope       = "access"
+    type        = "group"
+    id          = azuread_group.gold_quotes_writer_group.object_id
+    permissions = "-w-"
+  }
 }
 
 resource "azurerm_storage_data_lake_gen2_path" "crypto_gold_quotes_by_day_spark_partition_path" {
