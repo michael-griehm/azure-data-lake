@@ -127,3 +127,47 @@ resource "azurerm_storage_data_lake_gen2_path" "crypto_bronze_quotes_by_day_manu
     permissions = "-w-"
   }
 }
+
+resource "azurerm_storage_data_lake_gen2_path" "crypto_bronze_quotes_delta_table" {
+  storage_account_id = azurerm_storage_account.adls.id
+  filesystem_name    = azurerm_storage_data_lake_gen2_filesystem.crypto_bronze_filesystem.name
+  resource           = "directory"
+  path               = "quotes-delta-table"
+
+  ace {
+    scope       = "default"
+    type        = "group"
+    id          = azuread_group.bronze_quotes_admin_group.object_id
+    permissions = "rwx"
+  }
+  ace {
+    scope       = "access"
+    type        = "group"
+    id          = azuread_group.bronze_quotes_admin_group.object_id
+    permissions = "rwx"
+  }
+  ace {
+    scope       = "default"
+    type        = "group"
+    id          = azuread_group.bronze_quotes_reader_group.object_id
+    permissions = "r--"
+  }
+  ace {
+    scope       = "access"
+    type        = "group"
+    id          = azuread_group.bronze_quotes_reader_group.object_id
+    permissions = "r--"
+  }
+  ace {
+    scope       = "default"
+    type        = "group"
+    id          = azuread_group.bronze_quotes_writer_group.object_id
+    permissions = "-w-"
+  }
+  ace {
+    scope       = "access"
+    type        = "group"
+    id          = azuread_group.bronze_quotes_writer_group.object_id
+    permissions = "-w-"
+  }
+}
