@@ -128,7 +128,7 @@ resource "azurerm_storage_data_lake_gen2_path" "crypto_gold_quotes_by_day_manual
   }
 }
 
-resource "azurerm_storage_data_lake_gen2_path" "crypto_gold_quotes_by_day_manual_partition_single_file_path" {
+resource "azurerm_storage_data_lake_gen2_path" "crypto_gold_quotes_delta_table" {
   storage_account_id = azurerm_storage_account.adls.id
   filesystem_name    = azurerm_storage_data_lake_gen2_filesystem.crypto_gold_filesystem.name
   resource           = "directory"
